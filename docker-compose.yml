@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./minnano_sensei_backend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongo:27017/minnano_sensei
+      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-here}
+      - JWT_EXPIRE=7d
+      - BCRYPT_ROUNDS=12
+    volumes:
+      - ./minnano_sensei_backend:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./minnano_sensei_vue
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - VUE_APP_API_BASE_URL=http://backend:5000/api
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  app-network:
+    driver: bridge

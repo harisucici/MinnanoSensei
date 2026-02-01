@@ -1,0 +1,15 @@
+{
+  "users": [
+    {
+      "id": "1769847785415",
+      "name": "Test User",
+      "email": "test@example.com",
+      "phone": "+1234567890",
+      "password": "password123",
+      "nativeLanguage": "English",
+      "learningGoal": "General Conversation",
+      "createdAt": "2026-01-31T08:23:05.415Z",
+      "updatedAt": "2026-01-31T08:23:05.416Z"
+    }
+  ]
+}

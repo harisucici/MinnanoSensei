@@ -1,0 +1,3 @@
+[submodule "minnano-sensei-vue"]
+	path = minnano-sensei-vue
+	url = https://github.com/harisucici/MinnanoSensei.git
